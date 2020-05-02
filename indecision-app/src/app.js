@@ -1,4 +1,5 @@
 //stateless functional component
+//localStorage only works with string data
 
 class IndecisionApp extends React.Component {
     constructor(props) {
@@ -14,22 +15,32 @@ class IndecisionApp extends React.Component {
     }
 
     componentDidMount() {
-        console.log('fetching Data');
+        try {
+            const json = localStorage.getItem('options');
+            const options = JSON.parse(json);
+            if (options) {
+                this.setState({ options });
+            }
+        } catch (error) {
+            //Do nothing at all 
+        }
+
+
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('saving Data');
+        if (prevState.options.length != this.state.options.length) {
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem('options', json);
+        }
     }
     componentWillUnmount() {
         console.log('componentWillUnmount');
     }
     handleRemoveAll() {
-        if (this.state.options[0] != null) {
-            this.setState(() => ({
-                options: []
-            }))
-        }
-
+        this.setState(() => ({
+            options: []
+        }));
     }
 
     handleDeleteOption(option) {
@@ -102,6 +113,7 @@ const Options = (props) => {
     return (
         <div>
             <button onClick={props.handleRemoveAll}> Remove All</button>
+            {props.options.length === 0 && <p>Please add an option to get started!</p>}
             {props.options.map((option) => (
                 <Option
                     key={option}
@@ -142,7 +154,10 @@ class AddOption extends React.Component {
         e.preventDefault();
         const option = e.target.elements.option.value.trim();
         const error = this.props.handleAddOption(option);
-        this.setState(() => ({ error }))
+        this.setState(() => ({ error }));
+        if (!error) {
+            e.target.elements.option.value = '';
+        }
     }
     render() {
         return (
