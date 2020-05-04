@@ -1,22 +1,22 @@
-var nameVar = 'Siddharth';
-var nameVar = 'Mike'; //redefine is also possible
+var nameVar = 'Andrew';
+var nameVar = 'Mike';
 console.log('nameVar', nameVar);
 
 let nameLet = 'Jen';
-nameLet = 'Julie'; //cannot refinfe
+nameLet = 'Julie';
 console.log('nameLet', nameLet);
 
-const nameConst = 'Alice';
-//nameConst = 'Abby';//cannot even reassign
+const nameConst = 'Frank';
 console.log('nameConst', nameConst);
 
-//Block Scoping
+// Block scoping
 
-const fullName = 'Jen Agarwal';
+const fullName = 'Jen Mead';
 let firstName;
-if (fullName) {
-    firstName = fullName.split(' ')[0];
-    console.log(firstName)
-};
 
-console.log(firstName)
+if (fullName) {
+  firstName = fullName.split(' ')[0];
+  console.log(firstName);
+}
+
+console.log(firstName);
